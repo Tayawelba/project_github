@@ -20,3 +20,23 @@ def main():
     test_loss, test_acc = model.evaluate(test_ds)
     print(f'Test accuracy: {test_acc}')
     
+    # Générer la documentation avec pydoc
+    import pydoc
+
+    # Créer le dossier 'doc' s'il n'existe pas
+    doc_dir = 'doc'
+    os.makedirs(doc_dir, exist_ok=True)
+
+    # Générer la documentation pour chaque module et sauvegarder dans le dossier 'doc'
+    modules = ['configuration', 'data_preprocessor', 'model_builder', 'train_evaluate_model']
+    for module in modules:
+        output_path = os.path.join(doc_dir, f'{module}.html')
+        pydoc.writedoc(module)
+        with open(f'{module}.html', 'r') as f:
+            content = f.read()
+        os.remove(f'{module}.html')
+        with open(output_path, 'w') as f:
+            f.write(content)
+
+if __name__ == '__main__':
+    main()

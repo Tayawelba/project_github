@@ -21,3 +21,16 @@ val_generator = datagen.flow_from_directory(config.VAL_DIR,
 predictions = model.predict(val_generator)
 predicted_labels = np.argmax(predictions, axis=1)
 true_labels = val_generator.classes
+
+# Matrice de confusion
+cm = confusion_matrix(true_labels, predicted_labels)
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=val_generator.class_indices.keys(), yticklabels=val_generator.class_indices.keys())
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.show()
+
+# Rapport de classification
+print("Classification Report:\n", classification_report(true_labels, predicted_labels, target_names=val_generator.class_indices.keys()))
