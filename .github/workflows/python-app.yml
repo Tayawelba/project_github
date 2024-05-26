@@ -44,7 +44,7 @@ jobs:
         # Required sender full name (address can be skipped):
         from: Luke Skywalker # <user@example.com>
         # Optional plain body:
-          body: 
+        body: 
             Le workflow ${{ github.event.workflow.name }} s'est terminé avec succès !
 
             Vous trouverez le modèle zippé en pièce jointe.
