@@ -28,7 +28,7 @@ jobs:
           zip -r model.zip model
 
       - name: Envoyer un email avec le modèle zippé
-        uses: actions/email@v1
+        uses: actions/email@v4
         with:
           subject: Résultats du workflow ${{ github.event.repository.name }}
           body: |
