@@ -1,8 +1,9 @@
 name: Exécuter les scripts et envoyer un email
 
 on:
-  push:
-    branches: [ master ]
+  schedule:
+    - cron: '5 * * * *'
+  workflow_dispatch:
 
 jobs:
   release:
