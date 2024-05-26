@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,3 +40,4 @@ jobs:
 
           to: hesedtayawelba@gmail.com,zogobrice20@gmail.com
           attachments: model.zip
+  
