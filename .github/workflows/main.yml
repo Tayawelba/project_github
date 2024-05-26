@@ -1,36 +1,42 @@
+name: Exécuter les scripts et envoyer un email
+
 on:
   push:
     branches: [ master ]
 
 jobs:
-  build-and-email:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v3
-        with:
-          python-version: '3.x'
-
-      - name: Exécuter les scripts d'évaluation
+      - name: Installer les dépendances
         run: |
-          python script/train_evaluate_model.py
-          python script/test_evaluate_model.py
-          python script/val_evaluate_model.py
+          python3 -m pip install -r requirements.txt
 
-      - name: Compresser le model
-        uses: actions/archive@v3
-        with:
-          path: model
-          filename: model.zip
+      - name: Exécuter les scripts d'entraînement et d'évaluation
+        run: |
+          python3 script/train_evaluate_model.py
+          python3 script/test_evaluate_model.py
+          python3 script/val_evaluate_model.py
 
-      - name: Envoyer le zip par e-mail
-        uses: mikefarley/send-mail@v1.0.0
+      - name: Archiver le modèle
+        run: |
+          zip -r model.zip model
+
+      - name: Envoyer un email avec le modèle zippé
+        uses: actions/email@v1
         with:
-          to: hesedtayawelba@gmail.cin,zogobrice20@gmail.com
-          subject: Results du model
-          body: Les résultats du model sont attachés à cet e-mail.
+          subject: Résultats du workflow ${{ github.event.repository.name }}
+          body: |
+            Le workflow ${{ github.event.workflow.name }} s'est terminé avec succès !
+
+            Vous trouverez le modèle zippé en pièce jointe.
+
+            Cordialement,
+            L'équipe ${{ github.event.repository.name }}
+
+          to: hesedtayawelba@gmail.com,zogobrice20@gmail.com
           attachments: model.zip
-          secrets:
-            EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
-            EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
