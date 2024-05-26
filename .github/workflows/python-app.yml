@@ -1,4 +1,3 @@
-
 name: daily-report
 
 on:
@@ -8,52 +7,36 @@ on:
 
 jobs:
   my-job:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-python@v3
       with: 
-        python-version: 3.x
+        python-version: '3.x'
     - name: Send mail
       uses: dawidd6/action-send-mail@v3
       with:
-        connection_url: ${{secrets.MAIL_CONNECTION}}
-        # Required mail server address if not connection_url:
+        connection_url: ${{ secrets.MAIL_CONNECTION }}
         server_address: smtp.gmail.com
-        # Server port, default 25:
         server_port: 465
-        # Optional whether this connection use TLS (default is true if server_port is 465)
         secure: true
-        # Optional (recommended) mail server username:
-        username: ${{secrets.MAIL_USERNAME}}
-        # Optional (recommended) mail server password:
-        password: ${{secrets.MAIL_PASSWORD}}
-        # Required mail subject:
-        subject: Github Actions job result
-        # Required recipients' addresses:
+        username: ${{ secrets.MAIL_USERNAME }}
+        password: ${{ secrets.MAIL_PASSWORD }}
+        subject: 'Github Actions job result'
         to: hesedtayawelba@gmail.com,zogobrice02@gmail.com
-        # Required sender full name (address can be skipped):
-        from: Luke Skywalker # <user@example.com>
-        # Optional plain body:
-        body: 
+        from: 'Luke Skywalker'
+        body: |
             Le workflow ${{ github.event.workflow.name }} s'est terminé avec succès !
 
             Vous trouverez le modèle zippé en pièce jointe.
 
             Cordialement,
-            L\'équipe ${{ github.event.repository.name }}
+            L'équipe ${{ github.event.repository.name }}
         cc: hesestayawelba@live.com
-        # Optional unsigned/invalid certificates allowance:
         ignore_cert: true
-        # Optional converting Markdown to HTML (set content_type to text/html too):
         convert_markdown: true
-        # Optional attachments:
         attachments: attachments.zip,git.diff,./dist/static/*.js
-        # Optional priority: 'high', 'normal' (default) or 'low'
         priority: low
-        # Optional nodemailerlog: true/false
         nodemailerlog: false
-        # Optional nodemailerdebug: true/false if true lognodem will also be set true
         nodemailerdebug: false
