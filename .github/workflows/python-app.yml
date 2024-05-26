@@ -14,29 +14,21 @@ jobs:
     - uses: actions/setup-python@v3
       with: 
         python-version: '3.x'
-    - name: Send mail
-      uses: dawidd6/action-send-mail@v3
+    - name: Send email
+      uses: devellany/send-mailer@v1.0.2
       with:
-        connection_url: ${{ secrets.MAIL_CONNECTION }}
-        server_address: smtp.gmail.com
-        server_port: 465
-        secure: true
-        username: ${{ secrets.MAIL_USERNAME }}
-        password: ${{ secrets.MAIL_PASSWORD }}
-        subject: 'Github Actions job result'
-        to: hesedtayawelba@gmail.com,zogobrice02@gmail.com
-        from: 'Luke Skywalker'
-        body: |
-            Le workflow ${{ github.event.workflow.name }} s'est terminé avec succès !
-
-            Vous trouverez le modèle zippé en pièce jointe.
-
-            Cordialement,
-            L'équipe ${{ github.event.repository.name }}
-        cc: hesestayawelba@live.com
-        ignore_cert: true
-        convert_markdown: true
-        attachments: attachments.zip,git.diff,./dist/static/*.js
-        priority: low
-        nodemailerlog: false
-        nodemailerdebug: false
+        host: smtp.google.com
+          # Optional port (defaults to 465)
+        port: 465
+        account: ${{secrets.MAIL_CONNECTION}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        sender: devellany
+        from: ${{secrets.MAIL_USERNAME}}
+        to: hesedtayawelba@gmail.com
+        subject: mail title.
+        body: your messages.
+        # Optional content type (defaults to text/plain)
+        contentType: text/plain
+        # Optional attachment files (JSON type. require property 'path')
+        attachments: '[{"path":"README.md"}]'
+        
