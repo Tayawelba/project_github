@@ -33,7 +33,7 @@ jobs:
         # Required mail subject:
         subject: Github Actions job result
         # Required recipients' addresses:
-        to: obiwan@example.com,yoda@example.com
+        to: hesedtayawelba@gmail.com,zogobrice02@gmail.com
         # Required sender full name (address can be skipped):
         from: Luke Skywalker # <user@example.com>
         # Optional plain body:
@@ -44,7 +44,7 @@ jobs:
 
             Cordialement,
             L\'équipe ${{ github.event.repository.name }}
-        cc: hesedtayawelba@gmail.com,hesestayawelba@live.com
+        cc: hesestayawelba@live.com
         # Optional unsigned/invalid certificates allowance:
         ignore_cert: true
         # Optional converting Markdown to HTML (set content_type to text/html too):
