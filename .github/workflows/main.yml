@@ -1,0 +1,36 @@
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-and-email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+
+      - name: Exécuter les scripts d'évaluation
+        run: |
+          python script/train_evaluate_model.py
+          python script/test_evaluate_model.py
+          python script/val_evaluate_model.py
+
+      - name: Compresser le model
+        uses: actions/archive@v3
+        with:
+          path: model
+          filename: model.zip
+
+      - name: Envoyer le zip par e-mail
+        uses: mikefarley/send-mail@v1.0.0
+        with:
+          to: hesedtayawelba@gmail.cin,zogobrice20@gmail.com
+          subject: Results du model
+          body: Les résultats du model sont attachés à cet e-mail.
+          attachments: model.zip
+          secrets:
+            EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+            EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
