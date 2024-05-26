@@ -4,6 +4,7 @@ name: daily-report
 on:
   schedule:
     - cron: '5 * * * *'
+  workflow_dispatch:
 
 jobs:
   my-job:
@@ -11,5 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: first-step
-      run: echo "hello world"
+    - uses: action/checkout@v2
+    - uses: action/setup-python@v2
+      with: 
+        python-version: 3.x
+    - name: Run email code
+      env:
+        USER_MAIL: ${{ secrets.USER_EMAIL }}
+        USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+      run: python send_mail.py
